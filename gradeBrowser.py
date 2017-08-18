@@ -1,12 +1,10 @@
+import os.path as path
+from time import sleep
+from uuid import uuid1 as uuid
+from requests import get
 from splinter import Browser
 from splinter.exceptions import ElementDoesNotExist
-from time import sleep
-from lab import Lab, LabHandler
-from requests import get
-from os.path import exists, abspath
-from os import makedirs
-from shutil import rmtree
-import comtypes.client
+
 
 class GradeBrowser:
     def __init__(self):
@@ -26,56 +24,31 @@ class GradeBrowser:
 
         while self._browser.is_element_not_present_by_xpath("//a[contains(text(),'" + class_n + "')]"):
             sleep(1)
-    
+
         self._browser.find_by_xpath("//a[contains(text(),'" + class_n + "')]").click()
         self._browser.find_by_xpath("//a[text()='Grade Center']").click()
         self._browser.find_by_xpath("//a[text()='Needs Grading']").click()
         self._browser.find_by_xpath("//a[@class='gradeAttempt']")[0].click()
 
-    def convert_to_pdf(self, file):
-        word = comtypes.client.CreateObject("Word.Application")
-        doc = word.Documents.Open(file)
-        nFile = file.split(".")
-        nFile = nFile[0] + ".pdf"
-        doc.SaveAs(file.split(), FileFormat=17)
-        doc.Close()
-        word.Quit()
-
-
-    def get_documents(self, lab_name):
+    def get_attachments(self, assignment_dir):
         dls = self._browser.find_by_xpath("//a[@class='dwnldBtn']")
-        extens = {}
         files = []
         for dl in dls:
             req = get(dl["href"], cookies=self._browser.cookies.all())
             if not req.status_code == 200:
                 print("Error downloading file")
             assignment = req.headers["Content-Disposition"].split(";")[1].split("=")[1][1:-1]
-            exten = assignment.split('.')[1]
+            file_extension = assignment.split('.')[1]
 
-            if exten not in extens:
-                extens[exten] = -1
-
-            extens[exten] += 1
-
-            mid = ""
-            if exten == "py":
-                mid = "code"
-            elif exten in ["doc", "docx", "pdf"]:
-                mid = "report"
-            else:
-                mid = "misc"
-
-            directory = abspath("./" + mid + "/" + lab_name + "_" + str(extens[exten]) + "." + exten)
+            new_assignment_name = uuid + "." + file_extension
+            directory = path.join(assignment_dir, new_assignment_name)
+            directory = path.abspath(directory)
 
             fh = open(directory, 'wb')
             for chunk in req.iter_content(10000):
                 fh.write(chunk)
             fh.close()
-            if exten in ["doc", "docx"] and False:
-                self.convert_to_pdf(directory)
-                rmtree(directory)
-                directory = directory.split(".")[0] + ".pdf"
+
             files.append(directory)
         return files
 
@@ -108,7 +81,7 @@ class GradeBrowser:
     def get_comment(self):
         return self._browser.find_by_xpath("//div[@class='vtbegenerated']")[0].value
 
-    def apply_to_all_assignments(self, func):
+    def map_to_all_assignments(self, func):
         amount = int(self._browser.find_by_xpath("//span[@class='count']")
                      .value.split('of')[1].split('gradable')[0].strip())
         for i in range(amount):
@@ -124,33 +97,28 @@ class GradeBrowser:
             else:
                 self.skip_assignment()
 
-        self.apply_to_all_assignments(_enter_grade)
+        self.map_to_all_assignments(_enter_grade)
 
-    def download_assignments(self, assignment, lab_handler):
+    def download_assignments(self, assignment, download_dir):
         assignment = assignment.strip().lower()
+        submissions = {}
 
         def _download():
             if self.check_assignment(assignment) and self.check_last_attempt():
+
                 name = self.get_person_name()
                 comment = self.get_comment()
-                lab = Lab(name, comment=comment)
-                files = self.get_documents(lab.get_lab_name())
-                lab.add_files(files)
-                lab_handler.add_lab(lab)
+                submission_directory = path.join(download_dir, name)
+                attachments = self.get_attachments(submission_directory)
+                submission = {"name": name, "comment": comment, "attachments": attachments}
+                submissions[name] = submission
             self.skip_assignment()
 
-        for dir in ['code', 'report', 'misc']:
-            if exists("./" + dir):
-                rmtree("./" + dir)
-            makedirs("./" + dir)
-
-        self.apply_to_all_assignments(_download)
+        self.map_to_all_assignments(_download)
+        return submissions
 
     def close(self):
         self._browser.quit()
 
 if __name__ == "__main__":
-    lh = LabHandler()
-    gb = GradeBrowser()
-    gb.download_assignments("lab 12", lh)
-    gb.close()
+    pass
