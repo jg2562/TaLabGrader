@@ -40,7 +40,7 @@ class GradeBrowser:
             assignment = req.headers["Content-Disposition"].split(";")[1].split("=")[1][1:-1]
             file_extension = assignment.split('.')[1]
 
-            new_assignment_name = uuid + "." + file_extension
+            new_assignment_name = uuid.hex + "." + file_extension
             directory = path.join(assignment_dir, new_assignment_name)
             directory = path.abspath(directory)
 
