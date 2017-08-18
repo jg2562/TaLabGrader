@@ -107,11 +107,12 @@ class GradeBrowser:
             if self.check_assignment(assignment) and self.check_last_attempt():
 
                 name = self.get_person_name()
+                username = usernames[name]
                 comment = self.get_comment()
-                submission_directory = path.join(download_dir, name)
+                submission_directory = path.join(download_dir, username)
                 attachments = self.get_attachments(submission_directory)
-                submission = {"name": name, "comment": comment, "attachments": attachments}
-                submissions[name] = submission
+                submission = {"username":username, "name": name, "comment": comment, "attachments": attachments}
+                submissions[username] = submission
             self.skip_assignment()
 
         self.map_to_all_assignments(_download)
