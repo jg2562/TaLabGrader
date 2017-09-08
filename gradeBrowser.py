@@ -1,4 +1,6 @@
+import os
 import os.path as path
+from utils import load_json
 from time import sleep
 from uuid import uuid1 as uuid
 from requests import get
@@ -7,7 +9,7 @@ from splinter.exceptions import ElementDoesNotExist
 
 
 class GradeBrowser:
-    def __init__(self):
+    def __init__(self, username):
         class_n = 'CS-126L'
         self._browser = Browser("chrome")
         self._browser.visit("http://bblearn.nau.edu")
@@ -15,10 +17,13 @@ class GradeBrowser:
             self._browser.find_by_xpath("//a[@id='CASButton']")[0].click()
         except ElementDoesNotExist:
             pass
+
         try:
-            username = self._browser.find_by_xpath("//input[@id='username']")[0]
-            if not username.value:
-                username.type("jg2562")
+            username_input = self._browser.find_by_xpath("//input[@id='username']")[0]
+            password_input = self._browser.find_by_xpath("//input[@id='password']")[0]
+            if not username_input.value:
+                username_input.type(username)
+                password_input.type("")
         except ElementDoesNotExist:
             pass
 
@@ -26,13 +31,21 @@ class GradeBrowser:
             sleep(1)
 
         self._browser.find_by_xpath("//a[contains(text(),'" + class_n + "')]").click()
-        self._browser.find_by_xpath("//a[text()='Grade Center']").click()
+        puller = self._browser.find_by_xpath("//a[@id='menuPuller']")
+        gradeC = self._browser.find_by_xpath("//a[text()='Grade Center']")
+        sleep(0.5)
+        if not gradeC.first.visible:
+            puller.click()
+            sleep(0.5)
+        gradeC.click()
+
         self._browser.find_by_xpath("//a[text()='Needs Grading']").click()
         self._browser.find_by_xpath("//a[@class='gradeAttempt']")[0].click()
 
     def get_attachments(self, assignment_dir):
         dls = self._browser.find_by_xpath("//a[@class='dwnldBtn']")
         files = []
+        os.makedirs(assignment_dir)
         for dl in dls:
             req = get(dl["href"], cookies=self._browser.cookies.all())
             if not req.status_code == 200:
@@ -79,7 +92,10 @@ class GradeBrowser:
         self._browser.find_by_xpath("//a[@id='currentAttempt_submitButton']")[0].click()
 
     def get_comment(self):
-        return self._browser.find_by_xpath("//div[@class='vtbegenerated']")[0].value
+        try:
+            return self._browser.find_by_xpath("//div[@class='vtbegenerated']")[0].value
+        except ElementDoesNotExist:
+            return ""
 
     def map_to_all_assignments(self, func):
         amount = int(self._browser.find_by_xpath("//span[@class='count']")
@@ -99,7 +115,7 @@ class GradeBrowser:
 
         self.map_to_all_assignments(_enter_grade)
 
-    def download_assignments(self, assignment, download_dir):
+    def download_assignments(self, assignment, download_dir, user_ids):
         assignment = assignment.strip().lower()
         submissions = {}
 
@@ -107,12 +123,12 @@ class GradeBrowser:
             if self.check_assignment(assignment) and self.check_last_attempt():
 
                 name = self.get_person_name()
-                username = usernames[name]
+                user_id = user_ids[name]
                 comment = self.get_comment()
-                submission_directory = path.join(download_dir, username)
+                submission_directory = path.join(download_dir, user_id)
                 attachments = self.get_attachments(submission_directory)
-                submission = {"username":username, "name": name, "comment": comment, "attachments": attachments}
-                submissions[username] = submission
+                submission = {"username": user_id, "name": name, "comment": comment, "attachments": attachments}
+                submissions[user_id] = submission
             self.skip_assignment()
 
         self.map_to_all_assignments(_download)
@@ -122,4 +138,6 @@ class GradeBrowser:
         self._browser.quit()
 
 if __name__ == "__main__":
-    pass
+    usernames = load_json("usernames.json")
+    browser = GradeBrowser("jg2562")
+    browser.download_assignments("lab 10", "temp", usernames)

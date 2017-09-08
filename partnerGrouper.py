@@ -1,23 +1,31 @@
 import json
+import utils
 import filecmp
 from submission import Submission
 
 
 class PartnerGrouper():
     def __init__(self, submissions):
-        self.submissions = {}
-        for student in submissions:
-            self.submissions[student] = Submission(submissions[student])
+        self.submissions = utils.convert_submission_dict_to_classes(submissions)
+
+    def generate_group_submissions(self, generate_groups):
+        groups = generate_groups()
+        # TODO: Finish this
 
     def generate_groups(self):
         groups = []
-        ungrouped_students = {student for student in submissions}
+        ungrouped_students = {student for student in self.submissions}
         while ungrouped_students:
             student = ungrouped_students.pop()
             group = self.generate_group_from_student(student)
             groups.append(list(group))
             ungrouped_students -= group
-        return groups
+
+        indexed_groups = {}
+        for index, group in enumerate(groups):
+            indexed_groups[index] = group
+
+        return indexed_groups
 
     def generate_group_from_student(self, student):
         group = set()
