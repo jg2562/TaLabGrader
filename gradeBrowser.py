@@ -93,7 +93,7 @@ class GradeBrowser:
 
     def get_comment(self):
         try:
-            return self._browser.find_by_xpath("//div[@class='vtbegenerated']")[0].value
+            return self._browser.find_by_xpath("//div[@class='vtbegenerated']")[0].value.strip()
         except ElementDoesNotExist:
             return ""
 

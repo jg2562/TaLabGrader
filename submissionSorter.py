@@ -17,10 +17,12 @@ class SubmissionSorter:
             group_dir_name = "group_" + str(group_number)
             group_dir = path.join(groups_dir, group_dir_name)
             os.makedirs(group_dir, exist_ok=True)
-            shutil.copy(student.get_code(),
-                        path.join(group_dir, "code.py"))
-            shutil.copy(student.get_report(),
-                        path.join(group_dir, "report.pdf"))
+            if student.get_code():
+                shutil.copy(student.get_code(),
+                            path.join(group_dir, "code.py"))
+            if student.get_report():
+                shutil.copy(student.get_report(),
+                            path.join(group_dir, "report.pdf"))
 
 
 if __name__ == "__main__":

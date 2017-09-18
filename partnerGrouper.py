@@ -6,11 +6,11 @@ from submission import Submission
 
 class PartnerGrouper():
     def __init__(self, submissions):
-        self.submissions = utils.convert_submission_dict_to_classes(submissions)
+        self.submissions = submissions
 
     def generate_group_submissions(self, generate_groups):
         groups = generate_groups()
-        # TODO: Finish this
+        # TODO: Finish this ... ???
 
     def generate_groups(self):
         groups = []
@@ -32,9 +32,10 @@ class PartnerGrouper():
         group.add(student)
         student_submission = self.submissions[student]
         for partner in student_submission.get_partners():
-            partner_sub = self.submissions[partner]
-            if student_submission.is_partner(partner_sub):
-                group.add(partner)
+            if partner in self.submissions:
+                partner_sub = self.submissions[partner]
+                if student_submission.is_partner(partner_sub):
+                    group.add(partner)
         return group
 
 if __name__ == "__main__":
@@ -42,4 +43,3 @@ if __name__ == "__main__":
     submissions = json.load(fh)
     grouper = PartnerGrouper(submissions)
     groups = grouper.generate_groups()
-    print(json.dumps(groups))

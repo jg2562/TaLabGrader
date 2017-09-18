@@ -9,6 +9,13 @@ def load_json(filename):
     finally:
         fh.close()
 
+def save_json(filename, data):
+    fh = open(filename, "w")
+    try:
+        return json.dump(data, fh)
+    finally:
+        fh.close()
+
 def convert_submission_dict_to_classes(submissions_dict):
     class_submissions = {}
     for student in submissions_dict:

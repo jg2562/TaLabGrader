@@ -8,6 +8,7 @@ class Submission():
         self.attachments = submission_dict["attachments"]
         self.comment = submission_dict["comment"]
         self.report = None
+        self.code = None
 
         for attachment in self.attachments:
             extension = attachment.split(".")[-1]
@@ -18,16 +19,19 @@ class Submission():
 
         self.partners = self._generate_partner_usernames()
 
-    username_regex = re.compile("[a-zA-Z]{2,3}[0-9]{2,4}")
+    username_regex = re.compile("[a-zA-Z]{2,4}[0-9]{1,6}")
     def _generate_partner_usernames(self):
+        if not self.code:
+            return []
         code_fh = open(self.code, "r")
         code = "\n".join(code_fh.readlines())
-        matches = re.findall(self.username_regex, code)
-        matches.remove(self.get_username())
+        matches = [match.lower() for match in re.findall(self.username_regex, code)]
+        bad_matches = ["cs126", self.username]
+        matches = [match for match in matches if match not in bad_matches]
         return matches
 
     def get_name(self):
-        return self.name
+        return self.student_name
 
     def get_username(self):
         return self.username
@@ -51,7 +55,8 @@ class Submission():
         return self.get_username() in partner.get_partners()
 
     def has_same_attachments(self, partner):
-        return self.has_same_code(partner) and self.has_same_report(partner)
+        # TODO: Figure out same report idea
+        return self.has_same_code(partner) # and self.has_same_report(partner)
 
     def has_same_code(self, partner):
         return self.is_same_file(self.get_code(), partner.get_code())
@@ -60,4 +65,6 @@ class Submission():
         return self.is_same_file(self.get_report(), partner.get_report())
 
     def is_same_file(self, file1, file2):
-        return filecmp.cmp(file1, file2)
+        if file1 and file2:
+            return filecmp.cmp(file1, file2)
+        return False
