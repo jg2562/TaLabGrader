@@ -1,0 +1,7 @@
+
+* Give feed back on why a group was split
+* Check if they even have a code file
+* Make groups deterministic
+* Handle lack of header
+* Handle the "general bad" comment (ex. no report)
+* Maximise penalty automation
