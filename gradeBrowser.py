@@ -108,8 +108,10 @@ class GradeBrowser:
         def _enter_grade():
             if self.check_assignment(assignment):
                 name = self.get_person_name()
-                self.input_person_grade(grade_handler.get_grade(name), grade_handler.get_note(name))
-
+                if gradeHandler.contains_student(name):
+                    self.input_person_grade(grade_handler.get_grade(name), grade_handler.get_note(name))
+                else:
+                    self.skip_assignment()
             else:
                 self.skip_assignment()
 

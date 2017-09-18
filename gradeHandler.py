@@ -37,10 +37,12 @@ class GradeHandler:
             sub_comment = ""
             if com:
                 sub_comment = com.text
+            if sheet[cell.column][0].value == "-":
+                continue
             point_diff = int(cell.value) - int(sheet[cell.column][0].value)
             if point_diff != 0:
                 if not sub_comment:
-                    raise ValueError("No note found on row {} and column {}".format(cell.row, cell.column))
+                    raise ValueError("No note found on {}{}".format(cell.column, cell.row))
                 sub_comment = "{:+} : {}".format(point_diff, sub_comment)
                 comments.append(sub_comment)
         self._group_grades[group_num]["Note"] = "\n".join(comments)
@@ -60,11 +62,20 @@ class GradeHandler:
             reverse[value] = key
         return reverse
 
+    def contains_student(self, name):
+        return name in self._grades
+
     def get_grade(self, name):
-        return self._grades[name]["Grade"]
+        try:
+            return self._grades[name]["Grade"]
+        except KeyError:
+            return None
 
     def get_note(self, name):
-        return self._grades[name]["Note"]
+        try:
+            return self._grades[name]["Note"]
+        except KeyError:
+            return None
 
     def get_all_students(self):
         return self._grades.keys()
@@ -73,7 +84,7 @@ class GradeHandler:
 if __name__ == "__main__":
     usernames = utils.load_json("usernames.json")
     groups = utils.load_json("groups.json")
-    handler = GradeHandler("./grading-sheet.xlsx", "Jack", groups, usernames, 10)
+    handler = GradeHandler("./grade-sheet.xlsx", "Jack", groups, usernames, 1)
     grade = handler._grades
     for student in grade:
         print(student)

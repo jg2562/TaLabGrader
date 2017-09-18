@@ -5,3 +5,4 @@
 * Handle lack of header
 * Handle the "general bad" comment (ex. no report)
 * Maximise penalty automation
+* Create todo json
