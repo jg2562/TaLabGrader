@@ -6,6 +6,7 @@ from uuid import uuid1 as uuid
 from requests import get
 from splinter import Browser
 from splinter.exceptions import ElementDoesNotExist
+import code
 
 
 class GradeBrowser:
@@ -13,19 +14,7 @@ class GradeBrowser:
         class_n = 'CS-126L'
         self._browser = Browser("chrome")
         self._browser.visit("http://bblearn.nau.edu")
-        try:
-            self._browser.find_by_xpath("//a[@id='CASButton']")[0].click()
-        except ElementDoesNotExist:
-            pass
-
-        try:
-            username_input = self._browser.find_by_xpath("//input[@id='username']")[0]
-            password_input = self._browser.find_by_xpath("//input[@id='password']")[0]
-            if not username_input.value:
-                username_input.type(username)
-                password_input.type("")
-        except ElementDoesNotExist:
-            pass
+        self._login(username)
 
         while self._browser.is_element_not_present_by_xpath("//a[contains(text(),'" + class_n + "')]"):
             sleep(1)
@@ -41,6 +30,25 @@ class GradeBrowser:
 
         self._browser.find_by_xpath("//a[text()='Needs Grading']").click()
         self._browser.find_by_xpath("//a[@class='gradeAttempt']")[0].click()
+        # self._browser.find_by_xpath("//a[text()='Full Grade Center']").click()
+
+        # theGradeCenter.grid.model.colDefs has assignment ids
+
+    def _login(self, username):
+        try:
+            self._browser.find_by_xpath("//a[@id='CASButton']")[0].click()
+        except ElementDoesNotExist:
+            pass
+
+        try:
+            username_input = self._browser.find_by_xpath("//input[@id='username']")[0]
+            password_input = self._browser.find_by_xpath("//input[@id='password']")[0]
+            if not username_input.value:
+                username_input.type(username)
+                password_input.type("")
+        except ElementDoesNotExist:
+            pass
+
 
     def get_attachments(self, assignment_dir):
         dls = self._browser.find_by_xpath("//a[@class='dwnldBtn']")
@@ -97,7 +105,20 @@ class GradeBrowser:
         except ElementDoesNotExist:
             return ""
 
-    def map_to_all_assignments(self, func):
+    def map_to_all_assignments(self, func, assignment_num):
+        # cell_col_element = None
+        # xpath_div_str = "//div[text()='Lab " + str(assignment_num) + "']"
+        # if self._browser.is_element_present_by_xpath(xpath_div_str):
+        #     cell_col_element = self._browser.find_by_xpath(xpath_div_str).find_by_xpath("../../..")
+        # else:
+        #     cell_num = 0
+        #     while self._browser.is_element_present_by_xpath("//th[@id='cell_0_" + str(cell_num) + "']"):
+        #         cell_num += 1
+        #     cell_num -= 1
+        #     last_text = ""
+
+        # self._browser.find_by_xpath("//div[text()='Lab " + str(assignment_num) + "']")
+
         amount = int(self._browser.find_by_xpath("//span[@class='count']")
                      .value.split('of')[1].split('gradable')[0].strip())
         for i in range(amount):
@@ -108,14 +129,14 @@ class GradeBrowser:
         def _enter_grade():
             if self.check_assignment(assignment):
                 name = self.get_person_name()
-                if gradeHandler.contains_student(name):
+                if grade_handler.contains_student(name):
                     self.input_person_grade(grade_handler.get_grade(name), grade_handler.get_note(name))
                 else:
                     self.skip_assignment()
             else:
                 self.skip_assignment()
 
-        self.map_to_all_assignments(_enter_grade)
+        self.map_to_all_assignments(_enter_grade, assignment)
 
     def download_assignments(self, assignment, download_dir, user_ids):
         assignment = assignment.strip().lower()
@@ -133,7 +154,7 @@ class GradeBrowser:
                 submissions[user_id] = submission
             self.skip_assignment()
 
-        self.map_to_all_assignments(_download)
+        self.map_to_all_assignments(_download, assignment)
         return submissions
 
     def close(self):
@@ -142,4 +163,4 @@ class GradeBrowser:
 if __name__ == "__main__":
     usernames = load_json("usernames.json")
     browser = GradeBrowser("jg2562")
-    browser.download_assignments("lab 10", "temp", usernames)
+    code.interact(local=locals())
