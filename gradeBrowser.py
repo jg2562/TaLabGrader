@@ -10,27 +10,19 @@ import code
 
 
 class GradeBrowser:
-    def __init__(self, username):
-        class_n = 'CS-126L'
+    def __init__(self, username, class_n):
+        bblearn_url = "http://bblearn.nau.edu"
         self._browser = Browser("chrome")
-        self._browser.visit("http://bblearn.nau.edu")
+        self._browser.visit(bblearn_url)
         self._login(username)
 
         while self._browser.is_element_not_present_by_xpath("//a[contains(text(),'" + class_n + "')]"):
             sleep(1)
 
         self._browser.find_by_xpath("//a[contains(text(),'" + class_n + "')]").click()
-        puller = self._browser.find_by_xpath("//a[@id='menuPuller']")
-        gradeC = self._browser.find_by_xpath("//a[text()='Grade Center']")
-        sleep(0.5)
-        if not gradeC.first.visible:
-            puller.click()
-            sleep(0.5)
-        gradeC.click()
-
-        self._browser.find_by_xpath("//a[text()='Needs Grading']").click()
-        self._browser.find_by_xpath("//a[@class='gradeAttempt']")[0].click()
-        # self._browser.find_by_xpath("//a[text()='Full Grade Center']").click()
+        self._course_id = self._get_course_id(self._browser.url)
+        grade_center_url = bblearn_url + "/webapps/gradebook/do/instructor/enterGradeCetner?couse_id={}&cvid=fullGC"
+        self._browser.visit(grade_center_url)
 
         # theGradeCenter.grid.model.colDefs has assignment ids
 
@@ -49,6 +41,10 @@ class GradeBrowser:
         except ElementDoesNotExist:
             pass
 
+    def _get_course_id(self, url):
+        meta_info = url.split("?")[1].split("&")
+        content_info = [meta_info_piece.split("=") for meta_info_piece in meta_info if "course_id" in meta_info_piece][0]
+        return content_info[1]
 
     def get_attachments(self, assignment_dir):
         dls = self._browser.find_by_xpath("//a[@class='dwnldBtn']")
