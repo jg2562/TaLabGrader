@@ -5,5 +5,9 @@
 	"class name": "CS-126L",
 	"zip file": "./data/submissions.zip",
 	"submissions dir": "./data/individual",
-	"submissions json": "./data/submissions.json"
+	"submissions json": "./data/submissions.json",
+	"groups dir": "./data/group",
+	"groups json": "./data/groups.json",
+	"spreadsheet" : "./data/grade-sheet.xlsx",
+	"rubric" : "./data/grade-sheet.xlsx"
 }
