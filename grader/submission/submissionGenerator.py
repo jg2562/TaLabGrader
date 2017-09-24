@@ -36,6 +36,7 @@ class SubmissionGenerator:
                     submission = self._get_submission_info(info_filename)
                     submission['dir'] = root
                     submissions[submission['username']] = submission
+                    os.remove(info_filename)
         return submissions
 
 
