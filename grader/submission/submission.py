@@ -1,11 +1,15 @@
 import re
 import filecmp
+import os
+import os.path
+import datetime
 
 class Submission():
     def __init__(self, submission_dict):
         self.username = submission_dict["username"]
         self.student_name = submission_dict["name"]
-        self.attachments = submission_dict["attachments"]
+        self.date = datetime.strptime(submission_dict["date"], "%A, %B %d, %Y %I:%M:%S %p %Z")
+        self.attachments = [os.path.join(path, filename) for filename in os.listdir(path) if os.path.isfile(os.path.join(path, filename))]
         self.comment = submission_dict["comment"]
         self.report = None
         self.code = None

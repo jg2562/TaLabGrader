@@ -48,7 +48,7 @@ class SubmissionGenerator:
         name_parts = file_lines[0].split(':')[1].split(" ")
         submission['name'] = " ".join(name_parts[:-1]).strip()
         submission['username'] = name_parts[-1].strip()[1:-1]
-        submission['date'] = file_lines[2].split(":")[1].strip()
+        submission['date'] = ":".join(file_lines[2].split(":")[1:]).strip()
 
         comment = file_lines[file_lines.index("Comments:") + 1]
         if comment == "There are no student comments for this assignment.":
