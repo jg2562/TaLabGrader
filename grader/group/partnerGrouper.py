@@ -15,7 +15,10 @@ class PartnerGrouper():
         groups = []
         ungrouped_students = {student for student in self.submissions}
         while ungrouped_students:
-            student = ungrouped_students.pop()
+            student = ""
+            for student_e in ungrouped_students:
+                if student_e > student:
+                    student = student_e
             group = self.generate_group_from_student(student)
             groups.append(list(group))
             ungrouped_students -= group
