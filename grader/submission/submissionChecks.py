@@ -11,21 +11,13 @@ class GroupSubmissionGrader():
         groups_errors = {}
         for group_number in group_submissions:
             group = group_submissions[group_number]
-            code = group.get_code()
-            if not code:
-                group_errors = {"Pep8": None, "Syntax": None}
-                groups_errors[group_number] = group_errors
-                continue
-            pep8 = self.check_pep8(code)
-            syntax = self.check_syntax(code)
-            group_errors = {"Pep8": pep8, "Syntax": syntax}
-            groups_errors[group_number] = group_errors
+            groups_errors[group_number] = check_group(group)
         return groups_errors
 
     def check_group(self, group):
         code = group.get_code()
         if not code:
-            pep8 = 0
+            pep8 = (0, [])
             syntax = False
         else:
             pep8 = self.check_pep8(code)
