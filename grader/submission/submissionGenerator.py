@@ -12,7 +12,7 @@ class SubmissionGenerator:
 
 
     def _generate_submission_files(self):
-        zip_filename = os.path.join(self._config['zip download'],"submissions.zip")
+        zip_filename = self._config['zip file']
         sub_root_dir = self._config["submissions dir"]
         if not zipfile.is_zipfile(zip_filename):
             raise ValueError("Bad submissions zip file: {}".format(zip_filename))
