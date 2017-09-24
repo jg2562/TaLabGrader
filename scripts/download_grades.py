@@ -1,12 +1,12 @@
 import json
-import utils
 import shutil
-from partnerGrouper import PartnerGrouper
-from submissionSorter import SubmissionSorter
-from gradeSheet import GradeSheet
-from gradeBrowser import GradeBrowser
-from submissionChecks import GroupSubmissionGrader
-from commentGenerator import CommentGenerator
+import grader.utils as utils
+from grader.group.partnerGrouper import PartnerGrouper
+from grader.submission.submissionSorter import SubmissionSorter
+from grader.interface.gradeSheet import GradeSheet
+from grader.browser.gradeBrowser import GradeBrowser
+from grader.submission.submissionChecks import GroupSubmissionGrader
+from grader.interface.commentGenerator import CommentGenerator
 
 def get_assignments(student_usernames_file, ta_username, lab_number, download_dir):
     shutil.rmtree(download_dir, ignore_errors=True)

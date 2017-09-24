@@ -1,6 +1,6 @@
 import openpyxl
-import utils
-from submissionChecks import GroupSubmissionGrader
+import grader.utils as utils
+from grader.submission.submissionChecks import GroupSubmissionGrader
 
 class GradeSheet():
     def __init__(self, workbook_name):

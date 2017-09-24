@@ -1,13 +1,12 @@
 import os
 import os.path as path
-from utils import load_json
+from grader.utils import load_json
 from time import sleep
 from uuid import uuid1 as uuid
 from requests import get
 from splinter import Browser
 from splinter.exceptions import ElementDoesNotExist
 import code
-
 
 class GradeBrowser:
     def __init__(self, username, class_n):

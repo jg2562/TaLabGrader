@@ -1,4 +1,4 @@
-import utils
+import grader.utils as utils
 import py_compile
 from pycodestyle import StyleGuide
 
@@ -43,7 +43,6 @@ class GroupSubmissionGrader():
             return True
         except SyntaxError as e:
             return False
-
 
 if __name__ == "__main__":
     groups = utils.load_json("groups.json")

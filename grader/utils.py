@@ -1,6 +1,6 @@
 import json
-from submission import Submission
-from group import GroupSubmission
+from grader.submission.submission import Submission
+from grader.group.group import GroupSubmission
 
 def load_json(filename):
     fh = open(filename, "r")

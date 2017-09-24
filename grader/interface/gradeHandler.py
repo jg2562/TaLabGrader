@@ -1,6 +1,5 @@
 import openpyxl
-import utils
-
+import grader.utils as utils
 
 class GradeHandler:
     def __init__(self, wb_name, grader_name, groups, usernames, lab_number):

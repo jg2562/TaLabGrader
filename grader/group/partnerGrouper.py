@@ -1,8 +1,7 @@
 import json
-import utils
+import grader.utils as utils
 import filecmp
-from submission import Submission
-
+from grader.submission.submission import Submission
 
 class PartnerGrouper():
     def __init__(self, submissions):
