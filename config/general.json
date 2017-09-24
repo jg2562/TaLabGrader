@@ -3,7 +3,7 @@
 	"grader username": "jg2562",
 	"grader password": "",
 	"class name": "CS-126L",
-	"zip download": "./data",
+	"zip file": "./data/submissions.zip",
 	"submissions dir": "./data/individual",
 	"submissions json": "./data/submissions.json"
 }

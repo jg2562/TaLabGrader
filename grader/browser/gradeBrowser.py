@@ -63,7 +63,7 @@ class GradeBrowser:
         self._browser.find_by_xpath("//input[@id='listContainer_selectAll']").check()
         self._browser.find_by_xpath("//input[@id='lastAttemptFile']").check()
         self._browser.find_by_xpath("//input[@type='submit']").click()
-        self._download_submissions_zip(self._config['zip download'])
+        self._download_submissions_zip(self._config['zip file'])
 
     def _get_assignment_id(self, assignment):
         while self._browser.evaluate_script("theGradeCenter.grid.model.getColDefs(true, true).length") == 0:
@@ -74,14 +74,12 @@ class GradeBrowser:
         except WebDriverException:
             raise ValueError("Assignment '{}' does not exist.".format(assignment))
 
-    def _download_submissions_zip(self, download_dir):
+    def _download_submissions_zip(self, zip_file):
         dl = self._browser.find_by_xpath("//a[contains(text(),'assignment')]")[0]
         req = get(dl["href"], cookies=self._browser.cookies.all())
         if not req.status_code == 200:
             print("Error downloading file")
-        assignment_name =  "submissions.zip"
-        directory = path.join(download_dir, assignment_name)
-        directory = path.abspath(directory)
+        directory = path.abspath(zip_file)
 
         fh = open(directory, 'wb')
         for chunk in req.iter_content(10000):
