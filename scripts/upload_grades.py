@@ -1,7 +1,6 @@
 import grader.utils as utils
 from grader.browser.gradeBrowser import GradeBrowser
 from grader.interface.gradeHandler import GradeHandler
-import code
 
 def upload_grades(config, lab_number):
     # old params: grading_wb, usernames, groups, ta_username, ta_name, assignment_number
@@ -12,7 +11,7 @@ def upload_grades(config, lab_number):
 
     print("Finished uploading grades")
     # Here until I can figure out how to kill browser
-    code.interact(local=locals())
+    raise NotImplementedError("Preventing browser hang")
 
 
 

@@ -8,11 +8,11 @@ def download_assignments(config, lab_number):
 
     print("Finished downloading assignments")
     # Here until I can figure out how to kill browser
-    code.interact(local=locals())
+    raise NotImplementedError("Preventing browser hang")
     browser.close()
 
 if __name__ == "__main__":
-    lab_number = 10
+    lab_number = 2
     config = utils.load_json("./config/general.json")
     download_assignments(config, lab_number)
     setup_grades(config, lab_number)
