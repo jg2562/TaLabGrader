@@ -45,6 +45,11 @@ class GradeHandler:
                     raise ValueError("No note found on {}{}".format(cell.column, cell.row))
                 sub_comment = "{:+} : {}".format(point_diff, sub_comment)
                 comments.append(sub_comment)
+        if grade >= 36:
+            comments += [self._config["grader A compliment"]]
+        elif grade >= 32:
+            comments += [self._config["grader B compliment"]]
+        comments += ["-" + self._config["grader name"]]
         self._group_grades[group_num]["Note"] = "\n".join(comments).strip()
 
     def _load_student_grades(self, groups):
