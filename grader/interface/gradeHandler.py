@@ -2,13 +2,13 @@ import openpyxl
 import grader.utils as utils
 
 class GradeHandler:
-    def __init__(self, wb_name, grader_name, groups, usernames, lab_number):
+    def __init__(self, wb_name, grader_name, groups, lab_number):
         self._group_grades = {}
         self._grades = {}
 
         sheet = self._get_work_sheet(wb_name, lab_number)
         self._load_group_grades(sheet)
-        self._load_student_grades(groups, usernames)
+        self._load_student_grades(groups)
         self.grader = grader_name
 
     def _get_work_sheet(self, workbook_name, lab_number):
@@ -44,22 +44,14 @@ class GradeHandler:
                     raise ValueError("No note found on {}{}".format(cell.column, cell.row))
                 sub_comment = "{:+} : {}".format(point_diff, sub_comment)
                 comments.append(sub_comment)
-        self._group_grades[group_num]["Note"] = "\n".join(comments)
+        self._group_grades[group_num]["Note"] = "\n".join(comments).strip()
 
-    def _load_student_grades(self, groups, usernames):
-        rev_usernames = self._reverse_username_dict(usernames)
+    def _load_student_grades(self, groups):
         for group in self._group_grades:
             for student in groups[str(group)]:
-                student_key = rev_usernames[student]
-                self._grades[student_key] = {}
+                self._grades[student] = {}
                 for category in self._group_grades[group]:
-                    self._grades[student_key][category] = self._group_grades[group][category]
-
-    def _reverse_username_dict(self, username):
-        reverse = {}
-        for key,value in username.items():
-            reverse[value] = key
-        return reverse
+                    self._grades[student][category] = self._group_grades[group][category]
 
     def contains_student(self, name):
         return name in self._grades
@@ -70,7 +62,7 @@ class GradeHandler:
         except KeyError:
             return None
 
-    def get_note(self, name):
+    def get_comment(self, name):
         try:
             return self._grades[name]["Note"]
         except KeyError:

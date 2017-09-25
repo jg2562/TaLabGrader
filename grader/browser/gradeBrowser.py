@@ -86,8 +86,19 @@ class GradeBrowser:
             fh.write(chunk)
         fh.close()
 
-    def upload_grades(self):
-        pass
+    def upload_grades(self, assignment, grades):
+        colId = self._get_assignment_id(assignment)
+        userIdMap = {x[0]:x[1] for x in self._browser.evaluate_script("theGradeCenter.grid.model.rows.map(function(x){return [x[2].v, x[0].uid]})")}
+        for user in userIdMap:
+            if grades.contains_student(user):
+                print("{}:{}:{}".format(user, grades.get_grade(user), grades.get_comment(user)))
+                script = "theGradeCenter.grid.model.getColDefById({}).updateGrade('{}', {})".format(colId, grades.get_grade(user), userIdMap[user])
+                sleep(0.1)
+                self._browser.evaluate_script(script)
+                script = "theGradeCenter.grid.model.setComments({},{},'{}','')".format(userIdMap[user], colId, grades.get_comment(user).replace("\n", "<br>"))
+                sleep(0.1)
+                print(script)
+                self._browser.evaluate_script(script)
 
     def _scroll_to_assignment(self, assignment_id):
         self._browser.execute_script("theGradeCenter.grid.scrollGradeItemIntoViewPort({});".format(assignment_id))
