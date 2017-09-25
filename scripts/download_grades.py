@@ -8,8 +8,6 @@ def download_assignments(config, lab_number):
 
     print("Finished downloading assignments")
     setup_grades(config, lab_number)
-    # Here until I can figure out how to kill browser
-    raise NotImplementedError("Preventing browser hang")
     browser.close()
 
 if __name__ == "__main__":
