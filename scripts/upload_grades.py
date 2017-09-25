@@ -6,7 +6,7 @@ import code
 def upload_grades(config, lab_number):
     # old params: grading_wb, usernames, groups, ta_username, ta_name, assignment_number
     groups = utils.load_json(config['groups json'])
-    handler = GradeHandler(config['spreadsheet'], config['grader name'], groups, lab_number)
+    handler = GradeHandler(config, groups, lab_number)
     browser = GradeBrowser(config)
     browser.upload_grades("Lab " + str(lab_number), handler)
 

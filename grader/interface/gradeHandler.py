@@ -2,17 +2,17 @@ import openpyxl
 import grader.utils as utils
 
 class GradeHandler:
-    def __init__(self, wb_name, grader_name, groups, lab_number):
+    def __init__(self, config, groups, lab_number):
+        self._config = config
         self._group_grades = {}
         self._grades = {}
 
-        sheet = self._get_work_sheet(wb_name, lab_number)
+        sheet = self._get_work_sheet(lab_number)
         self._load_group_grades(sheet)
         self._load_student_grades(groups)
-        self.grader = grader_name
 
-    def _get_work_sheet(self, workbook_name, lab_number):
-        wb = openpyxl.load_workbook(workbook_name, data_only=True)
+    def _get_work_sheet(self, lab_number):
+        wb = openpyxl.load_workbook(self._config['spreadsheet'], data_only=True)
         sheet = wb.get_sheet_by_name("Lab {}".format(lab_number))
         return sheet
 
@@ -29,7 +29,8 @@ class GradeHandler:
         group_row = sheet[group_row_num][2:]
         group_row = [cell for cell in group_row if cell.value]
         self._group_grades[group_num] = {}
-        self._group_grades[group_num]["Grade"] = str(sheet.cell(row=group_row_num, column=2).value)
+        grade = sheet.cell(row=group_row_num, column=2).value
+        self._group_grades[group_num]["Grade"] = str(grade)
         comments = []
         for cell in group_row:
             com = cell.comment
