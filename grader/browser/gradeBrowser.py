@@ -58,7 +58,7 @@ class GradeBrowser:
     def download_assignments(self, assignment):
         assignment_id = self._get_assignment_id(assignment)
         self._browser.visit("https://bblearn.nau.edu/webapps/gradebook/do/instructor/" +
-                            "downloadAssignment?outcome_definition_id={itemId}&course_id={courseId}".format(
+                            "downloadAssignment?outcome_definition_id={itemId}&course_id={courseId}&showAll=true".format(
                                 itemId=assignment_id, courseId=self._course_id))
         self._browser.find_by_xpath("//input[@id='listContainer_selectAll']").check()
         self._browser.find_by_xpath("//input[@id='lastAttemptFile']").check()
