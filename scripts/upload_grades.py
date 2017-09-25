@@ -9,6 +9,9 @@ def upload_grades(config, lab_number):
     handler = GradeHandler(config['spreadsheet'], config['grader name'], groups, lab_number)
     browser = GradeBrowser(config)
     browser.upload_grades("Lab " + str(lab_number), handler)
+
+    print("Finished uploading grades")
+    # Here until I can figure out how to kill browser
     code.interact(local=locals())
 
 

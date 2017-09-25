@@ -5,6 +5,10 @@ from setup_grades import setup_grades
 def download_assignments(config, lab_number):
     browser = GradeBrowser(config)
     students = browser.download_assignments("Lab " + str(lab_number))
+
+    print("Finished downloading assignments")
+    # Here until I can figure out how to kill browser
+    code.interact(local=locals())
     browser.close()
 
 if __name__ == "__main__":
