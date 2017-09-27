@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(name='Grader',
       version='1.0',
@@ -8,4 +8,5 @@ setup(name='Grader',
       url='https://github.com/jg2562/TaLabGrader',
       packages=['grader', 'grader.autograder', 'grader.browser',
                 'grader.group', 'grader.interface', 'grader.load', 'grader.submission'],
+      package_data={'grader.autograder':['moss.pl']},
       requires=['openpyxl','splinter','request','pycodestyle'])
