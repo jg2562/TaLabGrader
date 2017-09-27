@@ -1,5 +1,4 @@
 import json
-import grader.utils as utils
 import filecmp
 from grader.submission.submission import Submission
 
@@ -39,9 +38,3 @@ class PartnerGrouper():
                 if student_submission.is_partner(partner_sub):
                     group.add(partner)
         return group
-
-if __name__ == "__main__":
-    fh = open("students.json", "r")
-    submissions = json.load(fh)
-    grouper = PartnerGrouper(submissions)
-    groups = grouper.generate_groups()
