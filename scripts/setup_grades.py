@@ -9,7 +9,9 @@ from grader.interface.commentGenerator import CommentGenerator
 from grader.submission.submissionGenerator import SubmissionGenerator
 
 def setup_assignment(config):
-    return SubmissionGenerator(config).generate_submissions()
+    submissions = SubmissionGenerator(config).generate_submissions()
+    utils.save_json(config["submissions json"], submissions)
+    return submissions
 
 def students_to_sheet(config, submissions, lab_number):
     lab_sheet_name = config["spreadsheet"]
