@@ -26,6 +26,11 @@ class GradeBrowser:
         "/webapps/gradebook/do/instructor/enterGradeCenter?course_id={}&cvid=fullGC".format(self._course_id)
         self._browser.visit(grade_center_url)
 
+        # Delay until grade center has populated
+        while self._browser.evaluate_script("theGradeCenter.grid.model.getColDefs(true, true).length") == 0:
+            sleep(0.1)
+
+
     def _login(self):
         try:
             self._browser.find_by_xpath("//a[@id='CASButton']")[0].click()
@@ -64,9 +69,6 @@ class GradeBrowser:
         self._download_submissions_zip(self._config['zip file'])
 
     def _get_assignment_id(self, assignment):
-        while self._browser.evaluate_script("theGradeCenter.grid.model.getColDefs(true, true).length") == 0:
-            pass
-
         try:
             return self._browser.evaluate_script("theGradeCenter.grid.model.getColDefs(true, true).find(function(element){{return element['name'] == '{assignment}';}})['id']".format(assignment=assignment))
         except WebDriverException:
