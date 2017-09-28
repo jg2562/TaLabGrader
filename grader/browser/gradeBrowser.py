@@ -26,8 +26,6 @@ class GradeBrowser:
         "/webapps/gradebook/do/instructor/enterGradeCenter?course_id={}&cvid=fullGC".format(self._course_id)
         self._browser.visit(grade_center_url)
 
-        # theGradeCenter.grid.model.colDefs has assignment ids
-
     def _login(self):
         try:
             self._browser.find_by_xpath("//a[@id='CASButton']")[0].click()
@@ -86,9 +84,18 @@ class GradeBrowser:
             fh.write(chunk)
         fh.close()
 
+    def get_user_data(self):
+        raw_user_data = self._browser.evaluate_script("theGradeCenter.grid.model.rows.map(function(x){return [x[0].v, x[1].v, x[2].v, x[3].v]})")
+        user_data = sorted(raw_user_data, key=lambda x: x[0])
+        return user_data
+
+    def _get_user_id_map(self):
+        userIdMap = {x[0]:x[1] for x in self._browser.evaluate_script("theGradeCenter.grid.model.rows.map(function(x){return [x[2].v, x[0].uid]})")}
+        return userIdMap
+
     def upload_grades(self, assignment, grades):
         colId = self._get_assignment_id(assignment)
-        userIdMap = {x[0]:x[1] for x in self._browser.evaluate_script("theGradeCenter.grid.model.rows.map(function(x){return [x[2].v, x[0].uid]})")}
+        userIdMap = self._get_user_id_map()
         for user in userIdMap:
             if grades.contains_student(user):
                 script = "theGradeCenter.grid.model.getColDefById({}).updateGrade('{}', {})".format(colId, grades.get_grade(user), userIdMap[user])
