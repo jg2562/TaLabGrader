@@ -86,8 +86,7 @@ class GradeBrowser:
 
     def get_user_data(self):
         raw_user_data = self._browser.evaluate_script("theGradeCenter.grid.model.rows.map(function(x){return [x[0].v, x[1].v, x[2].v, x[3].v]})")
-        user_data = sorted(raw_user_data, key=lambda x: x[0])
-        return user_data
+        return raw_user_data
 
     def _get_user_id_map(self):
         userIdMap = {x[0]:x[1] for x in self._browser.evaluate_script("theGradeCenter.grid.model.rows.map(function(x){return [x[2].v, x[0].uid]})")}
