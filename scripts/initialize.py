@@ -21,7 +21,7 @@ workbook = openpyxl.load_workbook(workbook_name)
 workbook.active.title = "Rubric"
 comment_sheet = workbook.create_sheet("Comments", 0)
 comment_sheet.title = "Comments"
-for row, name in enumerate(sorted(comments_data, key=lambda x: x[1])):
+for row, name in enumerate(sorted(comments_data, key=lambda x: x[0])):
     comment_sheet.cell(row=row + 2, column=1).value = name[0]
     comment_sheet.cell(row=row + 2, column=2).value = name[1]
     comment_sheet.cell(row=row + 2, column=3).value = name[2]
