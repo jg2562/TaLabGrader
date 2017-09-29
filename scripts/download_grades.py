@@ -12,5 +12,6 @@ def download_assignments(config, lab_number):
 
 if __name__ == "__main__":
     lab_number = 2
+    print("Uploading Lab {}.".format(lab_number))
     config = utils.load_json("./config/general.json")
     download_assignments(config, lab_number)

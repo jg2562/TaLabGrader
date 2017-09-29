@@ -12,5 +12,6 @@ def upload_grades(config, lab_number):
 
 if __name__ == "__main__":
     lab_number = 10
+    print("Uploading Lab {}.".format(lab_number))
     config = utils.load_json("./config/general.json")
     upload_grades(config, lab_number)
