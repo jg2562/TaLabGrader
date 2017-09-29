@@ -76,14 +76,3 @@ class GradeHandler:
 
     def get_all_students(self):
         return self._grades.keys()
-
-
-if __name__ == "__main__":
-    usernames = utils.load_json("usernames.json")
-    groups = utils.load_json("groups.json")
-    handler = GradeHandler("./grade-sheet.xlsx", "Jack", groups, usernames, 1)
-    grade = handler._grades
-    for student in grade:
-        print(student)
-        print(grade[student]["Note"])
-        print("----")
