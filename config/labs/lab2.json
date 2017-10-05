@@ -1,0 +1,106 @@
+{
+	"assignment":{
+		"lab name": "Lab 2",
+		"lab number": 2,
+		"BBlearn Name": "Lab 2",
+		"max pep8 errors": 5,
+		"section order": ["report", "code", "other", "penalities", "info"],
+		"sections":{
+			"report": [
+				{
+					"name": "Preamble",
+					"test": "",
+					"points": 4,
+					"description": "Preamble\nLab # and name\nBOTH students\u2019 names\ndate\nlab section\n"
+				},
+				{
+					"name": "problem",
+					"test": "",
+					"points": 3,
+					"description": "Problem statement section"
+				},
+				{
+					"name": "planning",
+					"test": "",
+					"points": 3,
+					"description": "Planning section"
+				},
+				{
+					"name": "testing",
+					"test": "",
+					"points": 3,
+					"description": "Implementation and testing section"
+				},
+				{
+					"name": "reflection",
+					"test": "",
+					"points": 3,
+					"description": "Reflection section"
+				}
+			],
+			"code": [
+				{
+					"name": "comment",
+					"test": "",
+					"points": 4,
+					"description": "Comment Emphasis (universal deduction should only in lab 4 and later)\n0 - No comments 1 - Bad: vague and non-useful 2 - Average:comments useful but not enough to understand all logic 3- Good: Most code is explain well 4 - Logic of code could be reimplement using comments"
+				},
+				{
+					"name": "control",
+					"test": "",
+					"points": 4,
+					"description": "If/elif/else statements used correctly (no unintended program control)"
+				},
+				{
+					"name": "2 every path",
+					"test": "",
+					"points": 4,
+					"description": "At least 2 decision points in every path through the story"
+				},
+				{
+					"name": "3 one point",
+									  "test": "",
+									  "points": 4,
+									  "description": "At least one path with 3+ decision points"
+								  },
+								  {
+									  "name": "3 one path",
+									  "test": "",
+									  "points": 4,
+									  "description": "At least one decision points with 3+ consequences"
+								  },
+								  {
+									  "name": "num comp",
+									  "test": "",
+									  "points": 4,
+									  "description": "At least one numeric comparison\n"
+								  }
+							  ],
+							  "extra credit": [
+							  ],
+							  "other": [
+								  {"name": "Other",
+								   "description": "Used if I forgot anything",
+								   "points" : 0}
+							  ],
+							  "penalities": [
+								  {"name": "pep8",
+								   "description": "Pep8 errors",
+								   "points" : 0}
+							  ],
+							  "info": [
+								  {"name": "syntax",
+								   "description": "If program compiles",
+								   "points" : 0}
+							  ]
+						  },
+						  "testing": {
+							  "testing dir": "./",
+							  "tests":[
+								  {"name": "col1",
+								   "file": "col1.py"
+								  }
+							  ]
+						  }
+	}
+}
