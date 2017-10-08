@@ -100,10 +100,11 @@ class GradeBrowser:
         for user in userIdMap:
             if grades.contains_student(user):
                 script = "theGradeCenter.grid.model.getColDefById({}).updateGrade('{}', {})".format(colId, grades.get_grade(user), userIdMap[user])
-                sleep(0.2)
+                # TODO: Use proper delay based on website
+                sleep(0.5)
                 self._browser.evaluate_script(script)
                 script = "theGradeCenter.grid.model.setComments({},{},'{}','')".format(userIdMap[user], colId, grades.get_comment(user).replace("\n", "<br>"))
-                sleep(0.2)
+                sleep(0.5)
                 self._browser.evaluate_script(script)
 
     def _scroll_to_assignment(self, assignment_id):
