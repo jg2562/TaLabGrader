@@ -10,7 +10,7 @@ class CommentGenerator():
     comment_regex = re.compile("[0-2]")
     def _generate_student_comment(self, submission, sub_map):
         partners = submission.get_partners()
-        comments = [sub_map[partner].get_comment() for partner in partners if partner in sub_map and sub_map[partner].get_comment()]
+        comments = [sub_map[partner].get_comment().strip() for partner in partners if partner in sub_map and sub_map[partner].get_comment()]
         value = "-"
         if len(comments) == 1:
             matches = self.comment_regex.findall(comments[0])
@@ -28,7 +28,8 @@ class CommentGenerator():
             try:
                 com = comment_map[username_cell.value]
                 cell.value = com[0]
-                cell.comment = openpyxl.comments.Comment(com[1], "Auto-Grader")
+                if com[1]:
+                    cell.comment = openpyxl.comments.Comment(com[1], "Auto-Grader")
             except KeyError:
                 cell.value = "-"
         wb.save(workbook_name)

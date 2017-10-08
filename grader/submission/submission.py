@@ -11,7 +11,7 @@ class Submission():
         self.date = datetime.datetime.strptime(submission_dict["date"], "%A, %B %d, %Y %I:%M:%S %p %Z")
         user_dir = submission_dict["dir"]
         self.attachments = [os.path.join(user_dir, filename) for filename in os.listdir(user_dir) if os.path.isfile(os.path.join(user_dir, filename))]
-        self.comment = submission_dict["comment"]
+        self.comment = submission_dict["comment"].strip()
         self.report = None
         self.code = None
 
