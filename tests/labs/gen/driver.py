@@ -11,16 +11,15 @@ def import_file(filename):
     return modulename
 
 def run_tests(testmodule, studentcode):
-    score = 0
     for test in get_test_functions(testmodule):
         try:
             results = test[0](studentcode)
-            if not results[0]:
-                return (score, results[1])
-            score += test[1]
+            if results[0]:
+                return (1, "Pep8 errors")
         except Exception as e:
             return (score, "Exception thrown in test: {}".format(test[2]))
-    return (score, "")
+
+    return (0, "")
 
 def get_test_functions(testmodule):
     tests = testmodule.get_test_functions()
