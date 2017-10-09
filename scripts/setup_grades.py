@@ -6,6 +6,7 @@ from grader.group.partnerGrouper import PartnerGrouper
 from grader.submission.submissionSorter import SubmissionSorter
 from grader.interface.gradeSheet import GradeSheet
 from grader.interface.commentGenerator import CommentGenerator
+from grader.submission.submissionGenerator import SubmissionGenerator
 from grader.autograder.labGrader import LabGrader
 
 def setup_assignment(config):
