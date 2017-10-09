@@ -11,19 +11,20 @@ class GradeSheet():
             self.wb = openpyxl.Workbook()
 
     def create_grade_sheet(self, groups, lab_config, group_grades):
-        lab_name = lab_config["assignment"]["lab name"]
         lab_config = lab_config["assignment"]
-        lab_sheet = None
-
-        if lab_name not in self.wb.sheetnames:
-            lab_sheet = self.wb.create_sheet(title=lab_name)
-        else:
-            lab_sheet = self.wb.get_sheet_by_name(lab_name)
+        lab_name = lab_config["lab name"]
+        lab_sheet = self._get_lab_sheet(lab_name)
         self._section_ranges = self._get_section_ranges(lab_config["sections"])
         self._active_sheet = lab_sheet
         self._setup_header(lab_config)
         self._create_group_rows(lab_config, groups, group_grades)
         self.wb.save(self.workbook_name)
+
+    def _get_lab_sheet(self, lab_name):
+        if lab_name not in self.wb.sheetnames:
+            return self.wb.create_sheet(title=lab_name)
+        else:
+            return self.wb.get_sheet_by_name(lab_name)
 
     def _get_section_ranges(self, sections):
         # skip lab name, total col
