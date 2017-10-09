@@ -2,11 +2,11 @@ import openpyxl
 import grader.utils as utils
 
 class GradeSheet():
-    def __init__(self, workbook_name=""):
-        self.workbook_name = workbook_name
+    def __init__(self, config):
+        self.workbook_name = config["spreadsheet"]
         self._active_sheet = None
         try:
-            self.wb = openpyxl.load_workbook(workbook_name)
+            self.wb = openpyxl.load_workbook(self.workbook_name)
         except FileNotFoundError:
             self.wb = openpyxl.Workbook()
 
@@ -75,7 +75,6 @@ class GradeSheet():
                                                    end, row_num))
         return "=" + " + ".join(sums)
 
-
     def _add_auto_grades(self, sections, row_num, group_grade):
         for section in sections:
             for i, criteria in enumerate(section["criteria"]):
@@ -86,3 +85,57 @@ class GradeSheet():
                     grade = group_grade[test_name]
                     cell.value = grade[0] * criteria["possible"]
                     cell.comment = openpyxl.comments.Comment(str(grade[1]), "Auto-Grader")
+
+    def get_grades(self, lab_config):
+        lab_config = lab_config["assignment"]
+        self._active_sheet = self._get_lab_sheet(lab_config["lab name"])
+        self._section_ranges = self._get_section_ranges(lab_config["sections"])
+        grades = self._load_group_grades(lab_config["sections"])
+        return grades
+
+    def _load_group_grades(self, sections):
+        row = 2
+        groups_grades = {}
+        group_name = self._active_sheet.cell(row=row, column=1).value
+        while group_name:
+            grade = self._load_group_grade(sections, row)
+            # TODO: Find better way to get group_num
+            group_num = row - 2
+            groups_grades[group_num] = grade
+
+            row += 1
+            group_name = self._active_sheet.cell(row=row, column=1).value
+        return groups_grades
+
+    def _load_group_grade(self, sections, group_row_num):
+        group_num = group_row_num - 2
+        group_row = self._active_sheet[group_row_num][2:]
+        group_row = [cell for cell in group_row if cell.value]
+
+        group_grade = {}
+        comments = []
+        grade = 0
+        for section in filter(lambda sec: sec["include"], sections):
+            section_range = self._section_ranges[section["name"]]
+            for column, criteria in enumerate(section["criteria"]):
+                column += section_range[0]
+                cell = self._active_sheet.cell(column=column, row=group_row_num)
+                cell_comment = self._get_comment(cell)
+                points = int(cell.value)
+                grade += points
+                point_diff = int(points) - int(criteria["worth"])
+                if point_diff != 0:
+                    if not cell_comment:
+                        raise ValueError("No note found on {}{}".format(cell.column, cell.row))
+                    cell_comment = "{:+} : {}".format(point_diff, cell_comment)
+                    comments.append(cell_comment)
+        group_grade["Grade"] = grade
+        group_grade["Note"] = "\n".join(filter(lambda x: x, comments))
+        return group_grade
+
+    def _get_comment(self, cell):
+        com = cell.comment
+        sub_comment = ""
+        if com:
+            sub_comment = com.text
+        return sub_comment.strip()

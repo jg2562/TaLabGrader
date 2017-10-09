@@ -2,69 +2,76 @@ import openpyxl
 import grader.utils as utils
 
 class GradeHandler:
-    def __init__(self, config, groups, lab_number):
+    def __init__(self, config, groups, students, lab_number, sheet_grades):
         self._config = config
         self._group_grades = {}
         self._grades = {}
 
-        sheet = self._get_work_sheet(lab_number)
-        self._load_group_grades(sheet)
-        self._load_student_grades(groups)
+        self._load_student_grades(groups, students, sheet_grades)
 
-    def _get_work_sheet(self, lab_number):
-        wb = openpyxl.load_workbook(self._config['spreadsheet'], data_only=True)
-        sheet = wb.get_sheet_by_name("Lab {}".format(lab_number))
-        return sheet
+    def _load_student_grades(self, groups, students, group_grades):
+        for group in group_grades:
+            for student in groups[str(group)]:
+                student_grade = {}
+                group_grade = self._get_group_grade(group, group_grades)
+                student_penalties = self._get_student_penalties(students[student])
 
-    def _load_group_grades(self, sheet):
-        row = 2
-        group_name = sheet.cell(row=row, column=1).value
-        while group_name:
-            self._load_group_grade(sheet, row)
-            row += 1
-            group_name = sheet.cell(row=row, column=1).value
+                for category in group_grades[group]:
+                    student_grade[category] = group_grade[category] + student_penalties[category]
 
-    def _load_group_grade(self, sheet, group_row_num):
-        group_num = group_row_num - 2
-        group_row = sheet[group_row_num][2:]
-        group_row = [cell for cell in group_row if cell.value]
-        self._group_grades[group_num] = {}
-        grade = sheet.cell(row=group_row_num, column=2).value
-        self._group_grades[group_num]["Grade"] = str(grade)
+                pleasantries = self._get_pleasantries(student_grade["Grade"])
+                for category in group_grades[group]:
+                    student_grade[category] += pleasantries[category]
+
+                student_grade["Note"] = ("\n".join(filter(lambda x: x, student_grade["Note"]))).strip()
+                self._grades[student] = student_grade
+
+    def _get_group_grade(self, group, group_grades):
+        grade = group_grades[group]
+        new_grade = {}
+        new_grade["Grade"] = grade["Grade"]
+        new_grade["Note"] = [grade["Note"]]
+        return new_grade
+
+    def _get_student_penalties(self, student):
+        penalties = {}
+        prelab = self._get_prelab_penalties(student)
+        ratings = self._get_partner_rating_penalties(student)
+        penalties["Grade"] = prelab[0] + ratings[0]
+        penalties["Note"] = [prelab[1], ratings[1]]
+        return penalties
+
+    def _get_prelab_penalties(self, student):
+        if True:
+            return (0, "")
+        else:
+            return (-3, "-3: No Prelab")
+
+    def _get_partner_rating_penalties(self, student):
+        if student["comment"].strip():
+            return (0, "")
+        else:
+            return (-2, "-2: No partner rating")
+
+    def _get_pleasantries(self, group_grade):
+        pleasant = {}
         comments = []
-        for cell in group_row:
-            com = cell.comment
-            sub_comment = ""
-            if com:
-                sub_comment = com.text
-            if sheet[cell.column][0].value == "-":
-                continue
-            point_diff = int(cell.value) - int(sheet[cell.column][0].value)
-            if point_diff != 0:
-                if not sub_comment:
-                    raise ValueError("No note found on {}{}".format(cell.column, cell.row))
-                sub_comment = "{:+} : {}".format(point_diff, sub_comment)
-                comments.append(sub_comment)
+        grade = group_grade
         if grade >= 36:
             comments += [self._config["grader A compliment"]]
         elif grade >= 32:
             comments += [self._config["grader B compliment"]]
         comments += ["-" + self._config["grader name"]]
-        self._group_grades[group_num]["Note"] = "\n".join(comments).strip()
-
-    def _load_student_grades(self, groups):
-        for group in self._group_grades:
-            for student in groups[str(group)]:
-                self._grades[student] = {}
-                for category in self._group_grades[group]:
-                    self._grades[student][category] = self._group_grades[group][category]
+        pleasant["Grade"] = 0
+        pleasant["Note"] = comments
+        return pleasant
 
     def contains_student(self, name):
         return name in self._grades
 
     def get_grade(self, name):
         try:
-            return self._grades[name]["Grade"]
+            return str(self._grades[name]["Grade"])
         except KeyError:
             return None
 

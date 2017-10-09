@@ -30,7 +30,7 @@ def students_to_sheet(config, submissions, lab_number):
     group_grades = LabGrader(lab_config).get_groups_grades(groups)
 
     CommentGenerator().add_comments_to_sheet(submissions, lab_number, lab_sheet_name)
-    GradeSheet(lab_sheet_name).create_grade_sheet(groups, lab_config, group_grades)
+    GradeSheet(config).create_grade_sheet(groups, lab_config, group_grades)
 
 def setup_grades(config, lab_number):
     submissions = setup_assignment(config)
