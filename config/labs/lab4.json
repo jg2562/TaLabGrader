@@ -1,0 +1,112 @@
+{"assignment":{
+	"lab name": "Lab 4",
+	"lab number": 4,
+	"BBlearn Name": "Lab 4",
+	"moss level": 85,
+	"max pep8 errors": 5,
+	"sections":[{
+		"name": "report",
+		"include": true,
+		"criteria":[{
+			"name": "Preamble",
+			"worth": 4,
+			"possible": 4,
+			"description": "Preamble\nLab # and name\nBOTH students\u2019 names\ndate\nlab section\n"
+		}, {
+			"name": "problem",
+			"worth": 3,
+			"possible": 3,
+			"description": "Problem statement section"
+		}, {
+			"name": "planning",
+			"worth": 3,
+			"possible": 3,
+			"description": "Planning section"
+		}, {
+			"name": "testing",
+			"worth": 3,
+			"possible": 3,
+			"description": "Implementation and testing section"
+		}, {
+			"name": "reflection",
+			"worth": 3,
+			"possible": 3,
+			"description": "Reflection section"
+		}]
+	}, {
+		"name": "code",
+		"include": true,
+		"criteria": [{
+			"worth": 4,
+			"possible": 4,
+			"name": "Comments",
+			"description": "Comment Emphasis (universal deduction should only in lab 4 and later)\n0 - No comments 1 - Bad: vague and non-useful 2 - Average:comments useful but not enough to understand all logic 3- Good: Most code is explain well 4 - Logic of code could be reimplement using comments"
+		}, {
+			"worth": 4,
+			"possible": 4,
+			"name": "Questions",
+			"description": "User chooses number of questions"
+		}, {
+			"worth": 8,
+			"possible": 8,
+			"name": "3 Levels",
+			"description": "Has 3 levels:\n2 pts. for addition & subtraction\n2 pts. for multiplication & division\n2 pts. for advanced problems\n2 pts. for randomly selecting each type of question in a quiz"
+		}, {
+			"worth": 4,
+			"possible": 4,
+			"name": "End messages",
+			"description": "Three different ending messages"
+		}, {
+			"worth": 4,
+			"possible": 4,
+			"name": "case ignorant",
+			"description": "Input works regardless of case"
+		}]
+	}, {
+		"name": "other",
+		"include": true,
+		"criteria": [{
+			"name": "Other",
+			"description": "Used if I forgot anything",
+			"worth": 0,
+			"possible": 0
+		}]
+	}, {
+		"name": "penalities",
+		"include": true,
+		"criteria": [
+			{
+				"name": "pep8",
+				"description": "Pep8 errors",
+				"worth": 0,
+				"possible": -2,
+				"test": "pep8"
+			}
+		]
+	}, {
+		"name": "info",
+		"include": false,
+		"criteria": [{
+			"name": "syntax",
+			"description": "If program compiles",
+			"worth": 0,
+			"possible": 1,
+			"test": "syntax"
+		}]
+	}]
+},
+ "testing": [
+	 {
+		 "testing dir": "tests/labs/gen",
+		 "driver": "tests/labs/gen/driver.py",
+		 "type": "individual",
+		 "tests":[{
+			 "name": "pep8",
+			 "file": "pep8.py"
+		 }, {
+			 "name": "syntax",
+			 "file": "syntax.py"
+		 }]
+	 }
+ ]
+}
