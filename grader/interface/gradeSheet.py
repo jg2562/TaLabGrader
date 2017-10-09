@@ -57,12 +57,23 @@ class GradeSheet():
 
     def _create_group_row(self, lab_config, row_num, group, group_grade):
         self._active_sheet.cell(column=1, row=row_num).value = "Group {}".format(group.get_group_number())
-        col_letter = openpyxl.utils.get_column_letter
-        sum_val = "=SUM({}{}:{}{})".format(col_letter(self._section_ranges["report"][0]), row_num,
-                                           col_letter(self._section_ranges["other"][1]), row_num)
+        sum_val = self._build_sum_formula(lab_config["sections"], row_num)
         self._active_sheet.cell(column=2, row=row_num).value = sum_val
 
         self._add_auto_grades(lab_config["sections"], row_num, group_grade)
+
+    def _build_sum_formula(self, sections, row_num):
+        sums = []
+        col_letter = openpyxl.utils.get_column_letter
+        for section in sections:
+            if section["include"]:
+                start = col_letter(self._section_ranges[section["name"]][0])
+                end = col_letter(self._section_ranges[section["name"]][1])
+
+                sums.append("SUM({}{}:{}{})".format(start, row_num,
+                                                   end, row_num))
+        return "=" + " + ".join(sums)
+
 
     def _add_auto_grades(self, sections, row_num, group_grade):
         for section in sections:
