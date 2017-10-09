@@ -1,0 +1,155 @@
+{"assignment":{
+	"lab name": "Lab 5",
+	"lab number": 5,
+	"BBlearn Name": "Lab 5",
+	"moss level": 85,
+	"max pep8 errors": 5,
+	"sections":[{
+		"name": "report",
+		"include": true,
+		"criteria":[
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Preamble\nLab # and name\nBOTH students\u2019 names\ndate\nlab section\n",
+				"name": "Preamble"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Problem statement section",
+				"name": "Problem"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Planning section",
+				"name": "Planning"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Implementation and testing section",
+				"name": "Testing"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Reflection section",
+				"name": "Reflection"
+			}]
+
+	}, {
+		"name": "code",
+		"include": true,
+		"criteria": [
+			{
+				"possible": 4,
+				"test": "phone",
+				"worth": 4,
+				"description": "Update / Get Phone works (updates and returns correctly)",
+				"name": "phone"
+			},
+			{
+				"possible": 4,
+				"test": "age",
+				"worth": 4,
+				"description": "Update / Get Age works (updates and returns correctly)",
+				"name": "age"
+			},
+			{
+				"possible": 4,
+				"test": "email",
+				"worth": 4,
+				"description": "Update / Get Email works (updates and returns correctly)",
+				"name": "email"
+			},
+			{
+				"possible": 4,
+				"test": "creation",
+				"worth": 4,
+				"description": "Create contact / Contains contact creates contact with all information",
+				"name": "creation/contains"
+			},
+			{
+				"possible": 4,
+				"test": "display",
+				"worth": 4,
+				"description": "Display prints error message if contact does not exist",
+				"name": "display"
+			}
+
+		]
+	}, {
+		"name": "other",
+		"include": true,
+		"criteria": [{
+			"name": "Other",
+			"description": "Used if I forgot anything",
+			"worth": 0,
+			"possible": 0
+		}]
+	}, {
+		"name": "penalities",
+		"include": true,
+		"criteria": [
+			{
+				"name": "pep8",
+				"description": "Pep8 errors",
+				"worth": 0,
+				"possible": -2,
+				"test": "pep8"
+			}
+		]
+	}, {
+		"name": "info",
+		"include": false,
+		"criteria": [{
+			"name": "syntax",
+			"description": "If program compiles",
+			"worth": 0,
+			"possible": 1,
+			"test": "syntax"
+		}]
+	}]
+},
+ "testing": [
+	 {
+		 "testing dir": "tests/labs/gen",
+		 "driver": "tests/labs/gen/driver.py",
+		 "type": "individual",
+		 "tests":[{
+			 "name": "pep8",
+			 "file": "pep8.py"
+		 }, {
+			 "name": "syntax",
+			 "file": "syntax.py"
+		 }]
+	 }, {
+		 "testing dir": "tests/labs/lab5",
+		 "driver": "tests/labs/lab5/driver.py",
+		 "type": "individual",
+		 "tests": [{
+			 "name": "phone",
+			 "file": "phone.py"
+		 },{
+			 "name": "email",
+			 "file": "email.py"
+		 },{
+			 "name": "display",
+			 "file": "display.py"
+		 },{
+			 "name": "creation",
+			 "file": "creation.py"
+		 },{
+			 "name": "age",
+			 "file": "age.py"
+		 }]
+	 }
+ ]
+}
