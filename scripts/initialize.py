@@ -3,6 +3,7 @@ import sys
 import csv
 import grader.utils as utils
 import openpyxl
+import os
 from os import path
 from grader.browser.gradeBrowser import GradeBrowser
 
@@ -19,6 +20,9 @@ browser = GradeBrowser(config)
 comments_data = browser.get_user_data()
 
 # open and create grading sheet, check if rubric sheet exists
+
+workbook_dir = path.dirname(workbook_name)
+os.makedirs(workbook_dir, exist_ok=True)
 if path.exists(workbook_name):
     workbook = openpyxl.load_workbook(workbook_name)
 else:
