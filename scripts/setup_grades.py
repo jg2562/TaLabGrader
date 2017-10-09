@@ -7,6 +7,7 @@ from grader.interface.gradeSheet import GradeSheet
 from grader.submission.submissionChecks import GroupSubmissionGrader
 from grader.interface.commentGenerator import CommentGenerator
 from grader.submission.submissionGenerator import SubmissionGenerator
+from grader.autograder.labGrader import LabGrader
 
 def setup_assignment(config):
     submissions = SubmissionGenerator(config).generate_submissions()
@@ -14,18 +15,22 @@ def setup_assignment(config):
     return submissions
 
 def students_to_sheet(config, submissions, lab_number):
+    lab_config = utils.load_json("./config/labs/lab{}.json".format(lab_number))
     lab_sheet_name = config["spreadsheet"]
     rubric_name = config["rubric"]
     groups_dir = config["groups dir"]
     groups_json = config["groups json"]
+
     submissions = utils.convert_submission_dict_to_classes(submissions)
     groups = PartnerGrouper(submissions).generate_groups()
     utils.save_json(groups_json, groups)
     shutil.rmtree(groups_dir, ignore_errors=True)
     SubmissionSorter(submissions, groups).create_group_submissions(groups_dir)
     groups = utils.generate_group_submissions(submissions, groups)
+    group_grades = LabGrader(lab_config).get_groups_grades(groups)
+
     CommentGenerator().add_comments_to_sheet(submissions, lab_number, lab_sheet_name)
-    GradeSheet(lab_sheet_name).create_grade_sheet(groups, rubric_name, lab_number)
+    GradeSheet(lab_sheet_name).create_grade_sheet(groups, lab_config, group_grades)
 
 def setup_grades(config, lab_number):
     submissions = setup_assignment(config)
@@ -33,6 +38,6 @@ def setup_grades(config, lab_number):
 
 
 if __name__ == "__main__":
-    lab_number = 10
+    lab_number = 4
     config = utils.load_json("./config/general.json")
     setup_grades(config, lab_number)

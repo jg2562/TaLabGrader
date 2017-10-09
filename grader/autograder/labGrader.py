@@ -5,7 +5,7 @@ class LabGrader():
         self._config = lab_config
         self._suite = TestSuite(lab_config)
 
-    def get_group_grades(self, groups):
+    def get_groups_grades(self, groups):
         grades = {}
         for group in groups:
             grades[group] = self._suite.run_tests(groups[group].get_code())
