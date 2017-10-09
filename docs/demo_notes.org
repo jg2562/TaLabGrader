@@ -1,6 +1,6 @@
 * Demo
 ** Pull repo
-git pull git@github-nau:jg2562/TaLabGrader.git
+git clone git@github.com:jg2562/TaLabGrader.git
 ** Setup
 *** Call setup.py
 *** Call initialize
