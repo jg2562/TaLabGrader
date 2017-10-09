@@ -1,5 +1,6 @@
 import json
 import shutil
+import argExtractor
 import grader.utils as utils
 from grader.group.partnerGrouper import PartnerGrouper
 from grader.submission.submissionSorter import SubmissionSorter
@@ -38,6 +39,6 @@ def setup_grades(config, lab_number):
 
 
 if __name__ == "__main__":
-    lab_number = 4
+    lab_number = argExtractor.get_lab_number()
     config = utils.load_json("./config/general.json")
     setup_grades(config, lab_number)

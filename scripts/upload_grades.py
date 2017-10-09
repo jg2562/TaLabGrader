@@ -1,3 +1,4 @@
+import argExtractor
 import grader.utils as utils
 from grader.browser.gradeBrowser import GradeBrowser
 from grader.interface.gradeHandler import GradeHandler
@@ -16,7 +17,7 @@ def upload_grades(config, lab_number):
     browser.close()
 
 if __name__ == "__main__":
-    lab_number = 4
+    lab_number = argExtractor.get_lab_number()
     print("Uploading Lab {}.".format(lab_number))
     config = utils.load_json("./config/general.json")
     upload_grades(config, lab_number)
