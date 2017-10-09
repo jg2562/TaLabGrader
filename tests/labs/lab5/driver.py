@@ -1,6 +1,8 @@
 import os
 import sys
 import importlib.util
+from io import StringIO
+from contextlib import redirect_stdout
 
 def import_file(filename):
     filename = os.path.abspath(filename)
@@ -27,8 +29,10 @@ def get_test_functions(testmodule):
     return tests
 
 if __name__ == "__main__":
-    testmodule = import_file(sys.argv[1])
-    studentcode = import_file(sys.argv[2])
-    results = run_tests(testmodule, studentcode)
+    out = StringIO()
+    with redirect_stdout(out):
+        testmodule = import_file(sys.argv[1])
+        studentcode = import_file(sys.argv[2])
+        results = run_tests(testmodule, studentcode)
     print(results[0])
     print(results[1])

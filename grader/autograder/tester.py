@@ -39,5 +39,5 @@ class TestRunner():
 
     def _get_test_result(self, cprocess):
         lines = [ bytestr.decode() for bytestr in cprocess.stdout.readlines()]
-        score = int(lines[0])
+        score = float(lines[0])
         return (score, ("".join(lines[1:]).strip()))

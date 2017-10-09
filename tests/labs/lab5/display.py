@@ -42,14 +42,15 @@ def check_display_function(studentCode):
             with contextlib.redirect_stdout(student_out):
                 studentCode.display(contacts, person[0], person[1])
             student_out.seek(0)
+            student_str = "".join(student_out.readlines())
             person_str = ""
             if person in add_people:
                 person_str = "{} {}\nEmail: {}\nPhone: {}\nAge: {}".format(person[0], person[1], person[2], person[4], person[3])
+                if person_str.lower().strip() != student_str.lower().strip():
+                    return (False, "Display information not correct")
             else:
-                person_str = "Contact not found"
-            student_str = "".join(student_out.readlines())
-            if person_str.lower().strip() != student_str.lower().strip():
-                return (False, "Display information not correct")
+                if not student_str.strip():
+                    return (False, "Display information not correct")
 
         return (True, "Display information correct")
     except Exception as e:
