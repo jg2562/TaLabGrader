@@ -6,7 +6,6 @@ class TestSuite():
     def __init__(self, lab_config):
         raw_tests = lab_config['testing']
         self._tests = []
-
         for test_group in raw_tests:
             if not path.exists(test_group["driver"]):
                 raise FileNotFoundError("Driver file not found: {}".format(test_group["driver"]))
