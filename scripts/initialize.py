@@ -3,7 +3,9 @@ import sys
 import csv
 import grader.utils as utils
 import openpyxl
+from os import path
 from grader.browser.gradeBrowser import GradeBrowser
+
 
 config = utils.load_json("./config/general.json")
 workbook_name = config['spreadsheet']
@@ -17,8 +19,10 @@ browser = GradeBrowser(config)
 comments_data = browser.get_user_data()
 
 # open and create grading sheet, check if rubric sheet exists
-workbook = openpyxl.load_workbook(workbook_name)
-workbook.active.title = "Rubric"
+if path.exists(workbook_name):
+    workbook = openpyxl.load_workbook(workbook_name)
+else:
+    workbook = openpyxl.Workbook()
 comment_sheet = workbook.create_sheet("Comments", 0)
 comment_sheet.title = "Comments"
 for row, name in enumerate(sorted(comments_data, key=lambda x: x[0])):
