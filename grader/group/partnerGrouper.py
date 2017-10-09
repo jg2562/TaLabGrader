@@ -8,7 +8,7 @@ class PartnerGrouper():
 
     def generate_group_submissions(self, generate_groups):
         groups = generate_groups()
-        # TODO: Finish this ... ???
+        # TODO: Finish this, so it return group classes
 
     def generate_groups(self):
         groups = []
