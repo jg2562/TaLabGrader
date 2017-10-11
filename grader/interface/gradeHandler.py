@@ -23,6 +23,7 @@ class GradeHandler:
                 for category in group_grades[group]:
                     student_grade[category] += pleasantries[category]
 
+                student_grade[category] = max(0, student_grade[category])
                 student_grade["Note"] = ("\n".join(filter(lambda x: x, student_grade["Note"]))).strip()
                 self._grades[student] = student_grade
 

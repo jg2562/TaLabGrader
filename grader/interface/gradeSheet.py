@@ -73,7 +73,7 @@ class GradeSheet():
 
                 sums.append("SUM({}{}:{}{})".format(start, row_num,
                                                    end, row_num))
-        return "=" + " + ".join(sums)
+        return "=MAX(0, " + " + ".join(sums) + ")"
 
     def _add_auto_grades(self, sections, row_num, group_grade):
         for section in sections:
