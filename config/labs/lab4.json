@@ -7,60 +7,97 @@
 	"sections":[{
 		"name": "report",
 		"include": true,
-		"criteria":[{
-			"name": "Preamble",
-			"worth": 4,
-			"possible": 4,
-			"description": "Preamble\nLab # and name\nBOTH students\u2019 names\ndate\nlab section\n"
-		}, {
-			"name": "problem",
-			"worth": 3,
-			"possible": 3,
-			"description": "Problem statement section"
-		}, {
-			"name": "planning",
-			"worth": 3,
-			"possible": 3,
-			"description": "Planning section"
-		}, {
-			"name": "testing",
-			"worth": 3,
-			"possible": 3,
-			"description": "Implementation and testing section"
-		}, {
-			"name": "reflection",
-			"worth": 3,
-			"possible": 3,
-			"description": "Reflection section"
-		}]
+		"criteria":[
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Preamble\nLab # and name\nBOTH students\u2019 names\ndate\nlab section\n",
+				"name": "Preamble"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Problem statement section",
+				"name": "Problem"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Planning section",
+				"name": "Planning"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Implementation and testing section",
+				"name": "Testing"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Reflection section",
+				"name": "Reflection"
+			}]
+
 	}, {
 		"name": "code",
 		"include": true,
+		"criteria": [
+			{
+				"description": "Creating initial variables",
+				"name": "Vars",
+				"possible": 2,
+				"worth": 2
+			},
+			{
+				"description": "Creating and executing main()",
+				"name": "Main",
+				"possible": 2,
+				"worth": 2
+			},
+			{
+				"description": "percentage_per_category() function",
+				"name": "percent",
+				"possible": 4,
+				"worth": 4
+			},
+			{
+				"description": "letter_grade() function",
+				"name": "letter",
+				"possible": 4,
+				"worth": 4
+			},
+			{
+				"description": "weighted_score() function",
+				"name": "weighted",
+				"possible": 4,
+				"worth": 4
+			},
+			{
+				"description": "Generating the final output\n-Each category\u2019s grade with letter\n-Final weighted grade with letter\n",
+				"name": "Output",
+				"possible": 4,
+				"worth": 4
+			}
+		]
+	}, {
+		"name": "extra credit",
+		"include": true,
 		"criteria": [{
-			"worth": 4,
-			"possible": 4,
-			"name": "Comments",
-			"description": "Comment Emphasis (universal deduction should only in lab 4 and later)\n0 - No comments 1 - Bad: vague and non-useful 2 - Average:comments useful but not enough to understand all logic 3- Good: Most code is explain well 4 - Logic of code could be reimplement using comments"
+			"name": "to_percent",
+			"description": "to percent extra credit",
+			"worth": 0,
+			"possible": 2
 		}, {
-			"worth": 4,
-			"possible": 4,
-			"name": "Questions",
-			"description": "User chooses number of questions"
-		}, {
-			"worth": 8,
-			"possible": 8,
-			"name": "3 Levels",
-			"description": "Has 3 levels:\n2 pts. for addition & subtraction\n2 pts. for multiplication & division\n2 pts. for advanced problems\n2 pts. for randomly selecting each type of question in a quiz"
-		}, {
-			"worth": 4,
-			"possible": 4,
-			"name": "End messages",
-			"description": "Three different ending messages"
-		}, {
-			"worth": 4,
-			"possible": 4,
-			"name": "case ignorant",
-			"description": "Input works regardless of case"
+			"name": "median",
+			"description": "median extra credit function",
+			"worth": 0,
+			"possible": 2
 		}]
 	}, {
 		"name": "other",
