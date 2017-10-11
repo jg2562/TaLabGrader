@@ -11,7 +11,7 @@ def upload_grades(config, lab_number):
     sheet_grades = GradeSheet(config).get_grades(lab_config)
     handler = GradeHandler(config, groups, students, lab_number, sheet_grades)
     browser = GradeBrowser(config)
-    raise NotImplementedError
+    print("Uploading grades")
     browser.upload_grades("Lab " + str(lab_number), handler)
     print("Finished uploading grades")
     browser.close()
