@@ -22,7 +22,7 @@ class CommentGenerator():
         wb = openpyxl.load_workbook(workbook_name)
         sheet = wb["Comments"]
         username_col = [cell for cell in sheet["C"][1:] if cell.value]
-        lab_col_num = [cell.value for cell in sheet[1]].index("Lab " + str(lab))
+        lab_col_num = [cell.value for cell in sheet[1]].index("Lab " + str(lab)) + 1
         for username_cell in username_col:
             cell = sheet.cell(column=lab_col_num, row=username_cell.row)
             try:
