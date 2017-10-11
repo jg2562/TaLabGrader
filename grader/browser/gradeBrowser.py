@@ -87,6 +87,7 @@ class GradeBrowser:
         fh.close()
 
     def get_user_data(self):
+        # TODO separate scripts into a script dictionary called by browser_do function, parameters could be para**
         raw_user_data = self._browser.evaluate_script("theGradeCenter.grid.model.rows.map(function(x){return [x[0].v, x[1].v, x[2].v, x[3].v]})")
         return raw_user_data
 
