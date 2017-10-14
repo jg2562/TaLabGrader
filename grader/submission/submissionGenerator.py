@@ -1,4 +1,5 @@
 import os
+import shutil
 import os.path
 import zipfile
 
@@ -12,6 +13,7 @@ class SubmissionGenerator:
 
 
     def _generate_submission_files(self):
+        shutil.rmtree(self._config["submissions dir"], ignore_errors=True)
         zip_filename = self._config['zip file']
         sub_root_dir = self._config["submissions dir"]
         if not zipfile.is_zipfile(zip_filename):

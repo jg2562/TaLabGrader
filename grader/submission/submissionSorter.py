@@ -10,7 +10,7 @@ class SubmissionSorter:
         self.groups = groups
 
     def create_group_submissions(self, groups_dir):
-
+        shutil.rmtree(groups_dir, ignore_errors=True)
         for group_number in self.groups:
             group = self.groups[group_number]
             student = self.submissions[group[0]]
