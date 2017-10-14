@@ -49,7 +49,7 @@ def check_phone_function(studentCode):
         fake_people = [ generate_fake_person() for i in range(people_amount)]
         contacts = {}
         add_people = set()
-        for person in fake_people[:people_amount//2]:
+        for person in fake_people:
             studentCode.create_contact(contacts, person[0], person[1], person[2], person[3], person[4])
             add_people.add(person)
 
