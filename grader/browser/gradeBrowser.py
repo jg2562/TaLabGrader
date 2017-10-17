@@ -13,7 +13,8 @@ class GradeBrowser:
     def __init__(self, config):
         bblearn_url = config["bblearn url"]
         self._config = config
-        self._browser = Browser("chrome")
+        executable_path = {'executable_path':config['chrome driver path']}
+        self._browser = Browser("chrome", **executable_path)
         self._browser.visit(bblearn_url)
         self._login()
 

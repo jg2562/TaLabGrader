@@ -1,11 +1,13 @@
 {
-	"bblearn url":"http://bblearn.nau.edu",
 	"grader A compliment": "Amazing Code!",
 	"grader B compliment": "Great job!",
 	"grader name": "Jack",
 	"grader username": "jg2562",
 	"grader password": "",
 	"class name": "CS-126L",
+	"chrome driver path" : "./bin/driver/linux64.driver",
+	
+	"bblearn url":"http://bblearn.nau.edu",
 	"zip file": "./data/submissions.zip",
 	"submissions dir": "./data/individual",
 	"submissions json": "./data/submissions.json",
