@@ -21,8 +21,8 @@ class GradeBrowser:
         while self._browser.is_element_not_present_by_xpath("//a[contains(text(),'" + config["class name"] + "')]"):
             sleep(1)
 
-        # auto clicks first lab sections
-        # self._browser.find_by_xpath("//a[contains(text(),'" + config["class name"] + "')]").click()
+        if config["class name"]:
+            self._browser.find_by_xpath("//a[contains(text(),'" + config["class name"] + "')]").click()
         
         self._course_id = None
         while not self._course_id:
