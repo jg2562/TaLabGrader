@@ -75,7 +75,7 @@ class GradeBrowser:
         self._browser.find_by_xpath("//input[@id='listContainer_selectAll']").check()
         self._browser.find_by_xpath("//input[@id='lastAttemptFile']").check()
         self._browser.find_by_xpath("//input[@type='submit']").click()
-        self._download_submissions_zip(self._config['zip file'])
+        self._download_submissions_zip()
 
     def _get_assignment_id(self, assignment):
         try:
@@ -83,14 +83,16 @@ class GradeBrowser:
         except WebDriverException:
             raise ValueError("Assignment '{}' does not exist.".format(assignment))
 
-    def _download_submissions_zip(self, zip_file):
+    def _download_submissions_zip(self):
+        zip_file = self._config['zip file']
         dl = self._browser.find_by_xpath("//a[contains(text(),'assignment')]")[0]
         req = get(dl["href"], cookies=self._browser.cookies.all())
         if not req.status_code == 200:
             print("Error downloading file")
-        directory = path.abspath(zip_file)
 
-        fh = open(directory, 'wb')
+        full_file= path.abspath(zip_file)
+
+        fh = open(full_file, 'wb')
         for chunk in req.iter_content(10000):
             fh.write(chunk)
         fh.close()
