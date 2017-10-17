@@ -20,8 +20,13 @@ class GradeBrowser:
         while self._browser.is_element_not_present_by_xpath("//a[contains(text(),'" + config["class name"] + "')]"):
             sleep(1)
 
-        self._browser.find_by_xpath("//a[contains(text(),'" + config["class name"] + "')]").click()
-        self._course_id = self._get_course_id(self._browser.url)
+        # auto clicks first lab sections
+        # self._browser.find_by_xpath("//a[contains(text(),'" + config["class name"] + "')]").click()
+        
+        self._course_id = None
+        while not self._course_id:
+            self._course_id = self._get_course_id(self._browser.url)
+
         grade_center_url = bblearn_url +\
         "/webapps/gradebook/do/instructor/enterGradeCenter?course_id={}&cvid=fullGC".format(self._course_id)
         self._browser.visit(grade_center_url)
@@ -54,9 +59,12 @@ class GradeBrowser:
             pass
 
     def _get_course_id(self, url):
-        meta_info = url.split("?")[1].split("&")
-        content_info = [meta_info_piece.split("=") for meta_info_piece in meta_info if "course_id" in meta_info_piece][0]
-        return content_info[1]
+        try:
+            meta_info = url.split("?")[1].split("&")
+            content_info = [meta_info_piece.split("=") for meta_info_piece in meta_info if "course_id" in meta_info_piece][0]
+            return content_info[1]
+        except IndexError as e:
+            return None
 
     def download_assignments(self, assignment):
         assignment_id = self._get_assignment_id(assignment)
