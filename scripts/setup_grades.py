@@ -10,6 +10,7 @@ from grader.submission.submissionGenerator import SubmissionGenerator
 from grader.autograder.labGrader import LabGrader
 
 def setup_assignment(config):
+    print("Unziping submissions")
     submissions = SubmissionGenerator(config).generate_submissions()
     utils.save_json(config["submissions json"], submissions)
     return submissions
@@ -22,14 +23,19 @@ def students_to_sheet(config, submissions, lab_number):
     groups_json = config["groups json"]
 
     submissions = utils.convert_submission_dict_to_classes(submissions)
+    print("Generating groups")
     groups = PartnerGrouper(submissions).generate_groups()
     utils.save_json(groups_json, groups)
     shutil.rmtree(groups_dir, ignore_errors=True)
+    print("Sorting submissions")
     SubmissionSorter(submissions, groups).create_group_submissions(groups_dir)
     groups = utils.generate_group_submissions(submissions, groups)
+    print("Adding comments to grade sheet")
     CommentGenerator().add_comments_to_sheet(submissions, lab_number, lab_sheet_name)
 
+    print("Auto grading labs")
     group_grades = LabGrader(lab_config).get_groups_grades(groups)
+    print("Updating grade sheet")
     GradeSheet(config).create_grade_sheet(groups, lab_config, group_grades)
 
 def setup_grades(config, lab_number):
