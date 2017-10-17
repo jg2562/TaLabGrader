@@ -10,6 +10,7 @@ Might be better to download zip from github
 *** Configure the general json in config directory
 You only really need to worry about above the newline.
 Make sure to change the driver to the system you have.
+The things that are blank can be left blank (probably should be too)
 ** Setup
 *** Call setup.py
 *** Call initialize
