@@ -1,6 +1,15 @@
-* Demo
+* Usage instructions
+** Pre-install
+*** Make sure python 3 is installed
+*** Make sure python 3 pip is installed
+
 ** Pull repo
 git clone git@github.com:jg2562/TaLabGrader.git
+Might be better to download zip from github
+** Configure
+*** Configure the general json in config directory
+You only really need to worry about above the newline.
+Make sure to change the driver to the system you have.
 ** Setup
 *** Call setup.py
 *** Call initialize
@@ -9,11 +18,9 @@ git clone git@github.com:jg2562/TaLabGrader.git
 ** Upload Grades
 *** Call upload grades
 
-
-
 * Notes
+** Use python 3
 ** Must run everything from project root
 ** Partner comment penalties are auto included in final output
 ** Make sure to look into config/general.json, change everything to match your stuff. Password field can remain blank and will expect you to put in when logging in
-** Can only access the first displayed CS126L (for now?), you can "choose" which on by hiding the others using the gear in the right corner of the courses box in bblearn
 ** Each comment given on a grade cell will automatically be given a deduction when output to bblearn. e.x.  -4: bad pep8
