@@ -84,7 +84,8 @@ class GradeSheet():
                     cell = self._active_sheet.cell(column=column, row=row_num)
                     grade = group_grade[test_name]
                     cell.value = grade[0] * criteria["possible"]
-                    cell.comment = openpyxl.comments.Comment(str(grade[1]), "Auto-Grader")
+                    if str(grade[1]):
+                        cell.comment = openpyxl.comments.Comment(str(grade[1]), "Auto-Grader")
 
     def get_grades(self, lab_config):
         lab_config = lab_config["assignment"]
