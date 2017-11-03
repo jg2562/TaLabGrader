@@ -1,0 +1,135 @@
+{"assignment":{
+	"lab name": "Lab 6",
+	"lab number": 6,
+	"BBlearn Name": "Lab 6",
+	"moss level": 85,
+	"max pep8 errors": 5,
+	"sections":[{
+		"name": "report",
+		"include": true,
+		"criteria":[
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Preamble\nLab # and name\nBOTH students\u2019 names\ndate\nlab section\n",
+				"name": "Preamble"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Problem statement section",
+				"name": "Problem"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Planning section",
+				"name": "Planning"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Implementation and testing section",
+				"name": "Testing"
+			},
+			{
+				"possible": 4,
+				"test": "",
+				"worth": 4,
+				"description": "Reflection section",
+				"name": "Reflection"
+			}]
+
+	}, {
+		"name": "code",
+		"include": true,
+		"criteria": [
+			{
+				"description": "uses dictionary with letters as keys",
+				"test": "",
+				"possible": 4,
+				"name": "dict",
+				"worth": 4
+			},
+			{
+				"description": "Dictionary values should be displayed as lists",
+				"test": "",
+				"possible": 4,
+				"name": "lists",
+				"worth": 4
+			},
+			{
+				"description": "horizontal display",
+				"test": "",
+				"possible": 4,
+				"name": "horizontal",
+				"worth": 4
+			},
+			{
+				"description": "vertical display",
+				"test": "",
+				"possible": 4,
+				"name": "vertical",
+				"worth": 4
+			},
+			{
+				"description": "all letters are included",
+				"test": "",
+				"possible": 4,
+				"name": "all letters",
+				"worth": 4
+			}
+
+		]
+	}, {
+		"name": "other",
+		"include": true,
+		"criteria": [{
+			"name": "Other",
+			"description": "Used if I forgot anything",
+			"worth": 0,
+			"possible": 0
+		}]
+	}, {
+		"name": "penalities",
+		"include": true,
+		"criteria": [
+			{
+				"name": "pep8",
+				"description": "Pep8 errors",
+				"worth": 0,
+				"possible": -2,
+				"test": "pep8"
+			}
+		]
+	}, {
+		"name": "info",
+		"include": false,
+		"criteria": [{
+			"name": "syntax",
+			"description": "If program compiles",
+			"worth": 0,
+			"possible": 1,
+			"test": "syntax"
+		}]
+	}]
+},
+ "testing": [
+	 {
+		 "testing dir": "tests/labs/gen",
+		 "driver": "tests/labs/gen/driver.py",
+		 "type": "individual",
+		 "tests":[{
+			 "name": "pep8",
+			 "file": "pep8.py"
+		 }, {
+			 "name": "syntax",
+			 "file": "syntax.py"
+		 }]
+	 }
+ ]
+}
