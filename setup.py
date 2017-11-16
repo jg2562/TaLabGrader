@@ -9,4 +9,4 @@ setup(name='Grader',
       packages=['grader', 'grader.autograder', 'grader.browser',
                 'grader.group', 'grader.interface', 'grader.load', 'grader.submission'],
       package_data={'grader.autograder':['moss.pl']},
-      requires=['openpyxl','splinter','request','pycodestyle', 'beautifulsoup4'])
+      install_requires=['openpyxl','splinter','requests','pycodestyle', 'beautifulsoup4'])
