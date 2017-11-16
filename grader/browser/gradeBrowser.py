@@ -123,6 +123,4 @@ class GradeBrowser:
         self._browser.execute_script("theGradeCenter.grid.scrollGradeItemIntoViewPort({});".format(assignment_id))
 
     def close(self):
-        # Here until I can figure out how to kill browser
-        raise NotImplementedError("Preventing browser hang")
         self._browser.quit()
